@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function ResetPassword() {
   const [email, setEmail] = useState('');
@@ -40,9 +40,7 @@ function ResetPassword() {
       console.log('new Password Change', response.data);
       setNewpassword('');
       const info = response.data;
-      setRes_Mgs(`${info.message}`);
-
-      if (res_mgs === 'Password reset successfully') 
+      setRes_Mgs(`${info.message}`); 
         navigate('/');
       
     } catch (error) {
@@ -51,9 +49,10 @@ function ResetPassword() {
   };
 
   return (
-    <div>
-      <div>
-        <label>Email Id:</label>
+    <div className='container'>
+       <div className='inside'> <div>
+        <h2>Reset Password</h2>
+        <label>Email Id:</label><br />
         <input
           type="email"
           value={email.username}
@@ -92,7 +91,7 @@ function ResetPassword() {
           <button onClick={changeNewPassword}>submit</button>
           <p>{res_mgs}</p>
         </div>
-      ) : null}
+      ) : null}<Link to='/'>Login</Link></div>
     </div>
   );
 }

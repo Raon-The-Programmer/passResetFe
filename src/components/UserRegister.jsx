@@ -3,10 +3,11 @@ import { Link } from 'react-router-dom';
 
 function UserRegister({handleRegister,registerData,setRegisterData,mgs}) {
   return (
-    <div>
-    <form onSubmit={handleRegister}>
+    <div className='container'>
+      <form onSubmit={handleRegister} className='inside'>
+        <h2>Register Form:</h2>
       <div>
-        <label>Email Id:</label>
+        <label>Email Id:</label><br />
         <input
           type="email"
           value={registerData.username}
@@ -17,7 +18,7 @@ function UserRegister({handleRegister,registerData,setRegisterData,mgs}) {
         />
       </div>
       <div>
-        <label>Full Name:</label>
+        <label>Full Name:</label><br />
         <input
           type="text"
           value={registerData.name}
@@ -28,7 +29,7 @@ function UserRegister({handleRegister,registerData,setRegisterData,mgs}) {
         />
       </div>
       <div>
-        <label>Password:</label>
+        <label>Password:</label><br />
         <input
           type="password"
           value={registerData.password}

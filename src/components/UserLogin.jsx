@@ -1,15 +1,14 @@
 import React from 'react'
-import ResetPassword from './ResetPassword';
 import { Link } from 'react-router-dom';
-
+import "../App.css"
 function UserLogin({ handlePassword, loginData, setLoginData, mgs }) {
 
   return (
-    <div> 
-    <h2>login</h2>
-    <form onSubmit={handlePassword}>
+    <div className='container'> 
+   <div className='inside'> <h2>Login</h2>
+    <div><form onSubmit={handlePassword}>
       <div>
-        <label>Email Id:</label>
+        <label>Email Id:</label><br />
         <input
           type="email"
           value={loginData.username}
@@ -19,8 +18,8 @@ function UserLogin({ handlePassword, loginData, setLoginData, mgs }) {
           required
         />
       </div>
-      <div>
-        <label>Password:</label>
+      <div className='info'>
+        <label>Password:</label><br />
         <input
           type="password"
           value={loginData.password}
@@ -37,11 +36,11 @@ function UserLogin({ handlePassword, loginData, setLoginData, mgs }) {
           If New User Please register: 
           <Link to='/register'>Register</Link>
        </div>
-    </form>
+    </form></div>
       <div>
 <p>{mgs}</p>
 <Link to='/reset_password'>Forget Password</Link>
-</div>
+</div></div>
   </div>
   )
 }
