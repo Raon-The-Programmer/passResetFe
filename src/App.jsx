@@ -1,5 +1,8 @@
 import axios from 'axios';
 import React, { useState } from 'react';
+import UserLogin from './Components/UserLogin';
+import UserRegister from './Components/UserRegister';
+
 
 function App() {
   const [registerData, setRegisterData] = useState({
@@ -29,7 +32,7 @@ function App() {
     };
 
     try {
-      const res=await axios.post('http://localhost:3001/api/user', data);
+      const res=await axios.post('https://password-reset-backend-gaqe.onrender.com/api/user', data);
 
       console.log('successfully created');
       setRegisterData({ username: '', name: '', password: '' });
@@ -54,7 +57,7 @@ function App() {
     };
   
     try {
-      const res = await axios.post('http://localhost:3001/api/login', data);
+      const res = await axios.post('https://password-reset-backend-gaqe.onrender.com/api/login', data);
       const info = res.data;
       setMgs(`${info.message}`);
       console.log(info);
@@ -67,92 +70,9 @@ function App() {
   return (
     <div>
       <h1>Welcome to our website</h1>
-      {login ? (
-        <div>
-          <form onSubmit={handleRegister}>
-            <div>
-              <label>Email Id:</label>
-              <input
-                type="email"
-                value={registerData.username}
-                onChange={(e) => {
-                  setRegisterData({ ...registerData, username: e.target.value });
-                }}
-                required
-              />
-            </div>
-            <div>
-              <label>Full Name:</label>
-              <input
-                type="text"
-                value={registerData.name}
-                onChange={(e) => {
-                  setRegisterData({ ...registerData, name: e.target.value });
-                }}
-                required
-              />
-            </div>
-            <div>
-              <label>Password:</label>
-              <input
-                type="password"
-                value={registerData.password}
-                onChange={(e) => {
-                  setRegisterData({ ...registerData, password: e.target.value });
-                }}
-                required
-              />
-            </div>
-            <button type="submit">
-              REGISTER
-            </button>
-          </form>
-          <button onClick={handleLogin}>Login</button>
-          <div>{ mgs}</div>
-        </div>
+      {login ? (<UserRegister setRegisterData={setRegisterData} handleRegister={handleRegister} registerData={registerData} handleLogin={handleLogin} mgs={mgs} setMgs={setMgs } />
       ) : (
-        <>
-          <h2>login</h2>
-          <form onSubmit={handlePassword}>
-            <div>
-              <label>Email Id:</label>
-              <input
-                type="email"
-                value={loginData.username}
-                onChange={(e) => {
-                  setLoginData({ ...loginData, username: e.target.value });
-                }}
-                required
-              />
-            </div>
-            <div>
-              <label>Password:</label>
-              <input
-                type="password"
-                value={loginData.password}
-                onChange={(e) => {
-                  setLoginData({ ...loginData, password: e.target.value });
-                }}
-                required
-              />
-            </div>
-            <button type="submit">
-              Submit
-              </button>
-              <div>
-                If New User Please register: 
-                <button onClick={handleBack}> Register</button>
-             </div>
-          </form>
-            <div>
-  <p>{mgs}</p>
-  {mgs === 'password is wrong' ? (
-    <button type="submit">Forget Password</button>
-  ) : mgs === 'password is correct' ? (
-    <h2>hi</h2>
-  ) : null}
-</div>
-        </>
+          <UserLogin setLoginData={setLoginData} loginData={loginData} handlePassword={handlePassword} handleBack={handleBack } mgs={mgs} setMgs={setMgs }  />
       )}
     </div>
   );
