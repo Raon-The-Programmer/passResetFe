@@ -1,9 +1,9 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Link, Route, Routes } from 'react-router-dom';
-import UserLogin from 'src/Components/UserLogin';
-import UserRegister from 'src/Components/UserRegister';
-import ResetPassword from 'src/Components/ResetPassword';
+import UserLogin from './Components/UserLogin';
+import UserRegister from './Components/UserRegister';
+import ResetPassword from './Components/ResetPassword';
 
 function App() {
   const [registerData, setRegisterData] = useState({
@@ -15,7 +15,7 @@ function App() {
     username: '',
     password: ''
   });
-  const [mgs, setMgs] = useState(null);
+  const [mgs, setMgs] = useState('');
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -59,8 +59,6 @@ function App() {
   return (
     <div> 
       <Router>
-   
-
         <Routes> 
           <Route path='/' element={<UserLogin setLoginData={setLoginData} loginData={loginData} handlePassword={handlePassword} mgs={mgs} setMgs={setMgs} />} />
           <Route path='/register' element={<UserRegister setRegisterData={setRegisterData} handleRegister={handleRegister} registerData={registerData} mgs={mgs} setMgs={setMgs} />} />
