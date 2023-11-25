@@ -1,6 +1,7 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
-function UserRegister({handleRegister,registerData,setRegisterData,mgs,handleLogin}) {
+function UserRegister({handleRegister,registerData,setRegisterData,mgs}) {
   return (
     <div>
     <form onSubmit={handleRegister}>
@@ -39,9 +40,9 @@ function UserRegister({handleRegister,registerData,setRegisterData,mgs,handleLog
       </div>
       <button type="submit">
         REGISTER
-      </button>
+        </button>
+        <div><Link to='/'>Login</Link></div>
     </form>
-    <button onClick={handleLogin}>Login</button>
   </div>
 )
 }

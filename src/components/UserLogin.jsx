@@ -1,7 +1,8 @@
 import React from 'react'
 import ResetPassword from './ResetPassword';
+import { Link } from 'react-router-dom';
 
-function UserLogin({ handlePassword, loginData, setLoginData, handleBack, mgs }) {
+function UserLogin({ handlePassword, loginData, setLoginData, mgs }) {
 
   return (
     <div> 
@@ -34,16 +35,12 @@ function UserLogin({ handlePassword, loginData, setLoginData, handleBack, mgs })
         </button>
         <div>
           If New User Please register: 
-          <button onClick={handleBack}> Register</button>
+          <Link to='/register'>Register</Link>
        </div>
     </form>
       <div>
 <p>{mgs}</p>
-{mgs === 'password is wrong' ? (
-<ResetPassword/>
-) : mgs === 'password is correct' ? (
-<h2>hi</h2>
-) : null}
+<Link to='/reset_password'>Forget Password</Link>
 </div>
   </div>
   )

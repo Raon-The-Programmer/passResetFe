@@ -1,57 +1,98 @@
-import React, { useState } from 'react';
 import axios from 'axios';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function ResetPassword() {
-  
+  const [email, setEmail] = useState('');
+  const [res_mgs, setRes_Mgs] = useState('');
+  const [otp, setOtp] = useState('');
+  const [newPassword, setNewpassword] = useState('');
+  const navigate = useNavigate();
 
-  const sendOtp = async () => {
+  const handleSendOTP = async (e) => {
+    e.preventDefault();
+
+    const data = {
+      username: email.username,
+    };
+
     try {
-      // Send a request to your API to generate and send OTP to the provided email
-      const response = await axios.post('https://password-reset-backend-gaqe.onrender.com/api/passwordreset/forget-password', {
-        username:username,
-      });
+      const res = await axios.post('https://password-reset-backend-gaqe.onrender.com/api/passwordreset/forget-password', data);
 
-     
+      console.log('successfully Reset mail Sent');
+      setEmail({ username: '' });
+      const info = res.data;
+      setRes_Mgs(`${info.message}`);
     } catch (error) {
-      console.error('Error sending OTP:', error);
-      // Handle error (show a message to the user, etc.)
+      console.log(error);
     }
   };
 
-  const resetPassword = async () => {
-    try {
-      // Send a request to your API to reset the password using the provided OTP and new password
-      const response = await axios.post(`https://password-reset-backend-gaqe.onrender.com/api/passwordreset/forget-password/${otp}`, {
-        newPassword: newPassword,
-      });
+  const changeNewPassword = async (e) => {
+    e.preventDefault();
 
-      // Assuming the API returns success, you can handle it accordingly
-      console.log('Password reset successfully');
+    try {
+      const response = await axios.post(
+        `https://password-reset-backend-gaqe.onrender.com/api/passwordreset/forget-password/${otp}`,
+        newPassword
+      );
+
+      console.log('new Password Change', response.data);
+      setNewpassword('');
+      const info = response.data;
+      setRes_Mgs(`${info.message}`);
+
+      if (res_mgs === 'Password reset successfully') 
+        navigate('/');
+      
     } catch (error) {
-      console.error('Error resetting password:', error);
-      // Handle error (show a message to the user, etc.)
+      console.error('Error changing password', error);
     }
   };
 
   return (
     <div>
-      {showEmailInput && (
+      <div>
+        <label>Email Id:</label>
+        <input
+          type="email"
+          value={email.username}
+          onChange={(e) => {
+            setEmail({ ...email, username: e.target.value });
+          }}
+          required
+        />
         <div>
-          <label>Email:</label>
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-          <button onClick={sendOtp}>Send OTP</button>
+          <button onClick={handleSendOTP}>Send OTP</button>
         </div>
-      )}
-
-      {showOtpInput && (
+        <p>{res_mgs}</p>
+      </div>
+      {res_mgs === 'Reset email sent successfully' ? (
         <div>
-          <label>OTP:</label>
-          <input type="text" value={otp} onChange={(e) => setOtp(e.target.value)} />
-          <label>New Password:</label>
-          <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
-          <button onClick={resetPassword}>Reset Password</button>
+          <div>
+            <label htmlFor="newPassword">Enter OTP</label>
+            <input
+              type="password"
+              value={otp}
+              onChange={(e) => {
+                setOtp(e.target.value);
+              }}
+              required
+            />
+          </div>
+          <label htmlFor="">New Password</label>
+          <input
+            type="password"
+            value={newPassword.password}
+            onChange={(e) => {
+              setNewpassword({ password: e.target.value });
+            }}
+            required
+          />
+          <button onClick={changeNewPassword}>submit</button>
+          <p>{res_mgs}</p>
         </div>
-      )}
+      ) : null}
     </div>
   );
 }

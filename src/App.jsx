@@ -2,7 +2,8 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import UserLogin from './Components/UserLogin';
 import UserRegister from './Components/UserRegister';
-
+import { BrowserRouter as Router, Link, Route, Routes } from 'react-router-dom';
+import ResetPassword from './Components/ResetPassword';
 
 function App() {
   const [registerData, setRegisterData] = useState({
@@ -10,17 +11,11 @@ function App() {
     name: '',
     password: ''
   });
-  const [login, setLogin] = useState(false);
   const [loginData, setLoginData] = useState({
     username: '',
     password: ''
   });
   const [mgs, setMgs] = useState(null);
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    setLogin(false);
-  };
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -32,22 +27,16 @@ function App() {
     };
 
     try {
-      const res=await axios.post('https://password-reset-backend-gaqe.onrender.com/api/user', data);
+      const res = await axios.post('https://password-reset-backend-gaqe.onrender.com/api/user', data);
 
       console.log('successfully created');
       setRegisterData({ username: '', name: '', password: '' });
       const info = res.data;
       setMgs(`${info.message}`);
-      setLogin(false);
     } catch (error) {
       console.log(error);
     }
   };
-  const handleBack = (e) => {
-    e.preventDefault();
-    setLogin(true);
-    setMgs('');
-}
 
   const handlePassword = async (e) => {
     e.preventDefault();
@@ -55,7 +44,7 @@ function App() {
       username: loginData.username,
       password: loginData.password
     };
-  
+
     try {
       const res = await axios.post('https://password-reset-backend-gaqe.onrender.com/api/login', data);
       const info = res.data;
@@ -68,12 +57,16 @@ function App() {
   };
 
   return (
-    <div>
-      <h1>Welcome to our website</h1>
-      {login ? (<UserRegister setRegisterData={setRegisterData} handleRegister={handleRegister} registerData={registerData} handleLogin={handleLogin} mgs={mgs} setMgs={setMgs } />
-      ) : (
-          <UserLogin setLoginData={setLoginData} loginData={loginData} handlePassword={handlePassword} handleBack={handleBack } mgs={mgs} setMgs={setMgs }  />
-      )}
+    <div> 
+      <Router>
+   
+
+        <Routes> 
+          <Route path='/' element={<UserLogin setLoginData={setLoginData} loginData={loginData} handlePassword={handlePassword} mgs={mgs} setMgs={setMgs} />} />
+          <Route path='/register' element={<UserRegister setRegisterData={setRegisterData} handleRegister={handleRegister} registerData={registerData} mgs={mgs} setMgs={setMgs} />} />
+          <Route path='/reset_password' element={<ResetPassword/>}/>
+        </Routes>   
+      </Router>
     </div>
   );
 }
