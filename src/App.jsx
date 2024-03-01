@@ -1,9 +1,9 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import UserLogin from './Components/UserLogin';
-import UserRegister from './Components/UserRegister';
-import ResetPassword from './Components/ResetPassword';
+import UserLogin from './components/UserLogin';
+import UserRegister from './components/UserRegister';
+import ResetPassword from './components/ResetPassword';
 
 function App() {
   const [registerData, setRegisterData] = useState({
